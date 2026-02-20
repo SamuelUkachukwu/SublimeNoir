@@ -1,6 +1,8 @@
 package com.sublimenoir.SublimeNoir.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +10,27 @@ import java.util.List;
 @Entity
 public class Product {
 
+    // --- Getters
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    // --- Setters
+    @Getter
+    @Setter
     private String name;
+    @Getter
+    @Setter
     private String brand;
+    @Getter
+    @Setter
     private double price;
+    @Getter
+    @Setter
     private int sizeML;
+    @Getter
+    @Setter
     private int quantity;
 
     @OneToMany(mappedBy = "product")
@@ -33,36 +48,6 @@ public class Product {
         this.sizeML = sizeML;
         this.quantity = quantity;
     }
-
-    // --- Getters
-    public Long getProductId() { return productId; }
-
-    public String getName() { return name; }
-
-    public String getBrand() { return brand; }
-
-    public double getPrice() { return price; }
-
-    public int getSizeML() { return sizeML; }
-
-    public int getQuantity() { return quantity; }
-
-    // --- Setters
-    public void setName(String name) { this.name = name; }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setSizeML(int sizeML) {
-        this.sizeML = sizeML;
-    }
-
-    public void setQuantity(int quantity) { this.quantity = quantity; }
 
     @Override
     public String toString() {

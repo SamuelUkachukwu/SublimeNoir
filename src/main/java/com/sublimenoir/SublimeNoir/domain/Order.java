@@ -1,6 +1,7 @@
 package com.sublimenoir.SublimeNoir.domain;
 
 import jakarta.persistence.*;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,9 +17,12 @@ public class Order {
 
     private LocalDate orderDate;
 
+    // --- Setters
+    @Setter
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -46,10 +50,6 @@ public class Order {
         return orderId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public User getUser() {
         return user;
     }
@@ -59,11 +59,6 @@ public class Order {
     public OrderStatus getStatus() { return status; }
 
     public List<OrderItem> getItems() { return items; }
-
-    // --- Setters
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
 
     public void addItem(Product product, int quantity) {
         OrderItem item = new OrderItem(

@@ -2,6 +2,8 @@ package com.sublimenoir.SublimeNoir.domain;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 public class OrderItem {
@@ -10,13 +12,17 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
     private int quantity;
+    @Getter
     private double priceAtPurchase;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
@@ -28,25 +34,5 @@ public class OrderItem {
         this.product = product;
         this.quantity = quantity;
         this.priceAtPurchase = priceAtPurchase;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public double getPriceAtPurchase() {
-        return priceAtPurchase;
     }
 }
