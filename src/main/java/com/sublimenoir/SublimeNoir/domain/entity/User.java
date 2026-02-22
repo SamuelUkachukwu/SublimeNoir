@@ -1,4 +1,4 @@
-package com.sublimenoir.SublimeNoir.domain;
+package com.sublimenoir.SublimeNoir.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

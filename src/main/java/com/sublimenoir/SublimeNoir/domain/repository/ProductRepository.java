@@ -1,5 +1,6 @@
-package com.sublimenoir.SublimeNoir.domain;
+package com.sublimenoir.SublimeNoir.domain.repository;
 
+import com.sublimenoir.SublimeNoir.domain.entity.Product;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

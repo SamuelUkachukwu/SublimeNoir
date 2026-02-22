@@ -1,6 +1,9 @@
 package com.sublimenoir.SublimeNoir;
 
-import com.sublimenoir.SublimeNoir.domain.*;
+import com.sublimenoir.SublimeNoir.domain.entity.Order;
+import com.sublimenoir.SublimeNoir.domain.entity.OrderStatus;
+import com.sublimenoir.SublimeNoir.domain.entity.Product;
+import com.sublimenoir.SublimeNoir.domain.entity.User;
 import com.sublimenoir.SublimeNoir.service.OrderService;
 import com.sublimenoir.SublimeNoir.service.ProductService;
 import com.sublimenoir.SublimeNoir.service.UserService;

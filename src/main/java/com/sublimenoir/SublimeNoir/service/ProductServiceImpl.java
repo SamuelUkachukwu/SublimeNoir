@@ -1,7 +1,7 @@
 package com.sublimenoir.SublimeNoir.service;
 
-import com.sublimenoir.SublimeNoir.domain.Product;
-import com.sublimenoir.SublimeNoir.domain.ProductRepository;
+import com.sublimenoir.SublimeNoir.domain.entity.Product;
+import com.sublimenoir.SublimeNoir.domain.repository.ProductRepository;
 import com.sublimenoir.SublimeNoir.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

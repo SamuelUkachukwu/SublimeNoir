@@ -1,7 +1,7 @@
 package com.sublimenoir.SublimeNoir.service;
 
-import com.sublimenoir.SublimeNoir.domain.Order;
-import com.sublimenoir.SublimeNoir.domain.OrderStatus;
+import com.sublimenoir.SublimeNoir.domain.entity.Order;
+import com.sublimenoir.SublimeNoir.domain.entity.OrderStatus;
 
 import java.util.List;
 import java.util.Optional;

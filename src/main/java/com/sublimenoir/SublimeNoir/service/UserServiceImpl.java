@@ -1,12 +1,11 @@
 package com.sublimenoir.SublimeNoir.service;
 
-import com.sublimenoir.SublimeNoir.domain.User;
-import com.sublimenoir.SublimeNoir.domain.UserRepository;
+import com.sublimenoir.SublimeNoir.domain.entity.User;
+import com.sublimenoir.SublimeNoir.domain.repository.UserRepository;
 import com.sublimenoir.SublimeNoir.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

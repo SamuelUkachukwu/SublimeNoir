@@ -1,6 +1,6 @@
 package com.sublimenoir.SublimeNoir.service;
 
-import com.sublimenoir.SublimeNoir.domain.Product;
+import com.sublimenoir.SublimeNoir.domain.entity.Product;
 
 import java.util.List;
 import java.util.Optional;

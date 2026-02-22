@@ -1,6 +1,9 @@
 package com.sublimenoir.SublimeNoir.service;
 
-import com.sublimenoir.SublimeNoir.domain.*;
+import com.sublimenoir.SublimeNoir.domain.entity.*;
+import com.sublimenoir.SublimeNoir.domain.repository.OrderRepository;
+import com.sublimenoir.SublimeNoir.domain.repository.ProductRepository;
+import com.sublimenoir.SublimeNoir.domain.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
