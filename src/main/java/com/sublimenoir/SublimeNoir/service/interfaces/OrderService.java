@@ -1,4 +1,4 @@
-package com.sublimenoir.SublimeNoir.service;
+package com.sublimenoir.SublimeNoir.service.interfaces;
 
 import com.sublimenoir.SublimeNoir.domain.entity.Order;
 import com.sublimenoir.SublimeNoir.domain.entity.OrderStatus;

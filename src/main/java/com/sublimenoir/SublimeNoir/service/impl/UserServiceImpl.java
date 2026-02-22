@@ -1,15 +1,16 @@
-package com.sublimenoir.SublimeNoir.service;
+package com.sublimenoir.SublimeNoir.service.impl;
 
 import com.sublimenoir.SublimeNoir.domain.entity.User;
 import com.sublimenoir.SublimeNoir.domain.repository.UserRepository;
 import com.sublimenoir.SublimeNoir.exception.UserNotFoundException;
+import com.sublimenoir.SublimeNoir.service.interfaces.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements  UserService {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository repository) {

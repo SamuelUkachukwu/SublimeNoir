@@ -1,8 +1,9 @@
-package com.sublimenoir.SublimeNoir.service;
+package com.sublimenoir.SublimeNoir.service.impl;
 
 import com.sublimenoir.SublimeNoir.domain.entity.Product;
 import com.sublimenoir.SublimeNoir.domain.repository.ProductRepository;
 import com.sublimenoir.SublimeNoir.exception.ProductNotFoundException;
+import com.sublimenoir.SublimeNoir.service.interfaces.ProductService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductServiceImpl implements  ProductService {
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
