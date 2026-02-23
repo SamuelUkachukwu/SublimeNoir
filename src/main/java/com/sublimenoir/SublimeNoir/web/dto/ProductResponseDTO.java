@@ -1,7 +1,9 @@
 package com.sublimenoir.SublimeNoir.web.dto;
 
 import com.sublimenoir.SublimeNoir.domain.entity.Product;
+import lombok.Data;
 
+@Data
 public class ProductResponseDTO {
     private Long productId;
     private String name;

@@ -1,7 +1,9 @@
 package com.sublimenoir.SublimeNoir.web.dto;
 
 import com.sublimenoir.SublimeNoir.domain.entity.User;
+import lombok.Data;
 
+@Data
 public class UserResponseDTO {
     private Long id;
     private String username;
