@@ -26,5 +26,5 @@ public class ProductResponseDTO {
         this.quantity = product.getQuantity();
     }
 
-    // ---Getters
+    // ---Getters?? lombok!
 }

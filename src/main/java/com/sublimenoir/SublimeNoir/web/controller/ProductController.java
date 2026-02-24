@@ -48,7 +48,73 @@ public class ProductController {
             ProductResponseDTO dto = new ProductResponseDTO(result.get());
             return ResponseEntity.ok(dto);
         }
-        throw new ProductNotFoundException("Car with id " + id + " not found");
+        throw new ProductNotFoundException("Product with id " + id + " not found");
     }
 
+    @PutMapping("/{id}")
+    public ProductResponseDTO update(@PathVariable Long id, @RequestBody ProductRequestDTO updated) {
+        Product saved = productService.update(id, updated);
+        return new ProductResponseDTO(saved);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) {
+        productService.deleteById(id);
+    }
+
+    @GetMapping("/brand/{brand}")
+    public List<ProductResponseDTO> findByBrand(@PathVariable String brand) {
+
+        List<Product> products = productService.findByBrand(brand);
+        List<ProductResponseDTO> dtos = new ArrayList<>();
+
+        for (Product product : products) {
+            dtos.add(new ProductResponseDTO(product));
+        }
+
+        return dtos;
+    }
+
+    @GetMapping("/search")
+    public List<ProductResponseDTO> findByNameContaining(
+            @RequestParam String keyword) {
+
+        List<Product> products = productService.findByNameContaining(keyword);
+        List<ProductResponseDTO> dtos = new ArrayList<>();
+
+        for (Product product : products) {
+            dtos.add(new ProductResponseDTO(product));
+        }
+
+        return dtos;
+    }
+
+    @GetMapping("/price-range")
+    public List<ProductResponseDTO> findByPriceBetween(
+            @RequestParam double low,
+            @RequestParam double high) {
+
+        List<Product> products = productService.findByPriceBetween(low, high);
+        List<ProductResponseDTO> dtos = new ArrayList<>();
+
+        for (Product product : products) {
+            dtos.add(new ProductResponseDTO(product));
+        }
+
+        return dtos;
+    }
+
+    @GetMapping("/size/{size}")
+    public List<ProductResponseDTO> findBySizeML(@PathVariable int size) {
+
+        List<Product> products = productService.findBySizeML(size);
+        List<ProductResponseDTO> dtos = new ArrayList<>();
+
+        for (Product product : products) {
+            dtos.add(new ProductResponseDTO(product));
+        }
+
+        return dtos;
+    }
 }
