@@ -4,6 +4,8 @@ import com.sublimenoir.SublimeNoir.domain.entity.Product;
 import com.sublimenoir.SublimeNoir.domain.repository.ProductRepository;
 import com.sublimenoir.SublimeNoir.exception.ProductNotFoundException;
 import com.sublimenoir.SublimeNoir.service.interfaces.ProductService;
+import com.sublimenoir.SublimeNoir.web.dto.ProductRequestDTO;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,49 +21,55 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = repository;
     }
 
-    // --- CRUD
+
     @Override
+    @Transactional
+    public Product save(ProductRequestDTO dto) {
+        Product product = new Product();
+        updateProductFields(product, dto);
+        validateProduct(product);
+
+        return productRepository.save(product);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Iterable<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }
 
     @Override
     @Transactional
-    public Iterable<Product> findAll() {
-        return productRepository.findAll();
-    }
+    public Product update(Long id, ProductRequestDTO dto) {
+        Product existing = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product with id: " + id + " not fround"));
 
-    @Override
-    @Transactional
-    public Product save(Product product) {
-        validateProduct(product);
-        return productRepository.save(product);
-    }
+        updateProductFields(existing, dto);
 
-    @Override
-    @Transactional
-    public Product update(Long id, Product updated) {
+        validateProduct(existing);
 
-        validateProduct(updated);
-
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
-
-        product.setName(updated.getName());
-        product.setBrand(updated.getBrand());
-        product.setPrice(updated.getPrice());
-        product.setSizeML(updated.getSizeML());
-
-        return productRepository.save(product);
+        return productRepository.save(existing);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        if (!productRepository.existsById(id)) {
-            throw new ProductNotFoundException("Product with id " + id + " not found");
-        }
         productRepository.deleteById(id);
+    }
+
+    // --- Product field updater
+    private void updateProductFields(@NonNull Product product, ProductRequestDTO dto) {
+        product.setName(dto.getName());
+        product.setBrand(dto.getBrand());
+        product.setPrice(dto.getPrice());
+        product.setSizeML(dto.getSizeML());
+        product.setQuantity(dto.getQuantity());
     }
 
     // --- Queries
@@ -74,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findByNameContaining(String keyword) {
         requireNotBlank(keyword, "Keyword");
-        return productRepository.findByNameContainingIgnoreCase(keyword);
+        return productRepository.findByNameContaining(keyword);
     }
 
     @Override
@@ -90,42 +98,22 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findBySizeML(size);
     }
 
-
-    // --- Business logic
-    @Override
-    @Transactional
-    public Product createProduct(String name, String brand, double price, int sizeML, int quantity) {
-
-        requireNotBlank(name, "Name");
-        requireNotBlank(brand, "Brand");
-
-        if (price <= 0)
-            throw new IllegalArgumentException("Price must be positive");
-
-        if (sizeML <= 0)
-            throw new IllegalArgumentException("Size must be positive");
-
-        if (quantity < 0)
-            throw new IllegalArgumentException("Quantity cannot be negative");
-
-        if (productRepository.existsByNameAndBrand(name, brand)) {
-            throw new IllegalArgumentException("Product already exists");
-        }
-
-        Product product = new Product(name, brand, price, sizeML, quantity);
-
-        return productRepository.save(product);
-    }
-
     // --- Validation helpers
     private void validateProduct(Product product) {
         if (product == null)
             throw new IllegalArgumentException("Product must not be null");
 
         requireNotBlank(product.getName(), "Name");
+        requireNotBlank(product.getBrand(), "Brand");
 
         if (product.getPrice() <= 0)
             throw new IllegalArgumentException("Price must be positive");
+
+        if (product.getSizeML() <= 0)
+            throw new IllegalArgumentException("Size must be positive");
+
+        if (product.getQuantity() < 0)
+            throw new IllegalArgumentException("Quantity cannot be negative");
     }
 
     private void requireNotBlank(String value, String field) {

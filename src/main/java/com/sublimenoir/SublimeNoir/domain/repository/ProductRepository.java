@@ -9,11 +9,9 @@ public interface ProductRepository extends CrudRepository<Product, Long>
 {
     List<Product> findByBrand(String brand);
 
+    List<Product> findByNameContaining(String keyword);
+
     List<Product> findByPriceBetween(double low, double high);
 
-    List<Product> findByNameContainingIgnoreCase(String keyword);
-
     List<Product> findBySizeML(int size);
-
-    boolean existsByNameAndBrand(String name, String brand);
 }

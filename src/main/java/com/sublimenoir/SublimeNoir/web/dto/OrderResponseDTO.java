@@ -2,13 +2,18 @@ package com.sublimenoir.SublimeNoir.web.dto;
 
 import com.sublimenoir.SublimeNoir.domain.entity.Order;
 import com.sublimenoir.SublimeNoir.domain.entity.OrderStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderResponseDTO {
     private Long orderId;
     private Long userId;

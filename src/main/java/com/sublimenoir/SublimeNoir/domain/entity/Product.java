@@ -7,29 +7,22 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 public class Product {
 
-    // --- Getters
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
-    // --- Setters
-    @Getter
     @Setter
     private String name;
-    @Getter
     @Setter
     private String brand;
-    @Getter
     @Setter
     private double price;
-    @Getter
     @Setter
     private int sizeML;
-    @Getter
     @Setter
     private int quantity;
 
@@ -48,6 +41,8 @@ public class Product {
         this.sizeML = sizeML;
         this.quantity = quantity;
     }
+
+    // --- Getters Setters ? by lombok
 
     @Override
     public String toString() {
