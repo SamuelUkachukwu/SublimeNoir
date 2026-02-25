@@ -2,6 +2,7 @@ package com.sublimenoir.SublimeNoir.service.interfaces;
 
 import com.sublimenoir.SublimeNoir.domain.entity.Order;
 import com.sublimenoir.SublimeNoir.domain.entity.OrderStatus;
+import com.sublimenoir.SublimeNoir.web.dto.OrderRequestDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +11,7 @@ public interface OrderService {
     // --- CRUD
     Optional<Order> findById(Long id);
     Iterable<Order> findAll();
-    Order createOrder(Long userId);
+    Order createOrder(OrderRequestDTO dto);
     void deleteById(Long id);
 
     // --- Queries
@@ -19,6 +20,7 @@ public interface OrderService {
 
     // --- Business rules
     Order addProduct(Long orderId, Long productId, int quantity);
+
     Order removeProduct(Long orderId, Long productId);
 
     Order changeStatus(Long orderId, OrderStatus status);

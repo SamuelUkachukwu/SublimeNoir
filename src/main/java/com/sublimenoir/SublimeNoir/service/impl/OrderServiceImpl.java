@@ -5,6 +5,7 @@ import com.sublimenoir.SublimeNoir.domain.repository.OrderRepository;
 import com.sublimenoir.SublimeNoir.domain.repository.ProductRepository;
 import com.sublimenoir.SublimeNoir.domain.repository.UserRepository;
 import com.sublimenoir.SublimeNoir.service.interfaces.OrderService;
+import com.sublimenoir.SublimeNoir.web.dto.OrderRequestDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,11 +40,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order createOrder(Long userId) {
-        User user = userRepository.findById(userId)
+    public Order createOrder(OrderRequestDTO dto) {
+
+        User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         Order order = new Order(user);
+
         return orderRepository.save(order);
     }
 

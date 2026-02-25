@@ -3,15 +3,15 @@ package com.sublimenoir.SublimeNoir.web.dto;
 import com.sublimenoir.SublimeNoir.domain.entity.Order;
 import com.sublimenoir.SublimeNoir.domain.entity.OrderStatus;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderResponseDTO {
@@ -27,17 +27,7 @@ public class OrderResponseDTO {
         this.userId = order.getUser().getId();
         this.orderDate = order.getOrderDate();
         this.status = order.getStatus();
-
-        this.items = order.getItems()
-                .stream()
-                .map(OrderItemResponseDTO::new)
-                .collect(Collectors.toList());
-
-        this.total = order.getItems()
-                .stream()
-                .mapToDouble(i -> i.getPriceAtPurchase() * i.getQuantity())
-                .sum();
+        this.items = new ArrayList<>();
+        this.total = order.calculateTotal();
     }
-
-    // getters
 }

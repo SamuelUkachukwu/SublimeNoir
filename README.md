@@ -1,2 +1,9 @@
-SublimeNoir is a Spring Boot REST API for managing users, products, and orders in an e-commerce–style system. The application follows a clean layered architecture (controller → service → repository → domain) and uses Spring Data JPA with Hibernate for ORM and relational database persistence. It supports full CRUD operations, DTO-based request/response handling, validation logic, transactional service methods, and proper entity relationships with cascading between User, Order, and OrderItem. The project demonstrates best practices such as separation of concerns, exception handling, RESTful endpoint design, and clean API structure suitable for scalable backend development.
+SublimeNoir is a Spring Boot REST API for managing users, products, and orders in an e-commerce–style system. 
+
+The application follows a clean layered architecture and uses Spring Data JPA with Hibernate for ORM and relational database persistence.
+
+ ```(controller → service → repository → domain)```
+
+It supports full CRUD operations, DTO-based request/response handling, validation logic, transactional service methods, and proper entity relationships with cascading between User, Order, and OrderItem. The project demonstrates best practices such as separation of concerns, exception handling, RESTful endpoint design, and clean API structure suitable for scalable backend development.
+
 This project is currently under active development.

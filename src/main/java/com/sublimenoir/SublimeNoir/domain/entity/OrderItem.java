@@ -17,6 +17,7 @@ public class OrderItem {
     private int quantity;
     private double priceAtPurchase;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
@@ -33,8 +34,5 @@ public class OrderItem {
         this.product = product;
         this.quantity = quantity;
         this.priceAtPurchase = priceAtPurchase;
-    }
-
-    public void setOrder(Object o) {
     }
 }

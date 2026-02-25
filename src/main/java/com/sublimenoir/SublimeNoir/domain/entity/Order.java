@@ -43,7 +43,7 @@ public class Order {
     public Order(User user) {
         this.orderDate = LocalDate.now();
         this.status = OrderStatus.PENDING;
-        user.addOrder(this);
+        this.user = user;
     }
 
     public void addItem(Product product, int quantity) {
@@ -59,5 +59,13 @@ public class Order {
     public void removeItem(OrderItem item) {
         items.remove(item);
         item.setOrder(null);
+    }
+
+    public double calculateTotal() {
+        double total = 0;
+        for (OrderItem item : items) {
+            total += item.getPriceAtPurchase() * item.getQuantity();
+        }
+        return total;
     }
 }
