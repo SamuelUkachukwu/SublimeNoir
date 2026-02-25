@@ -1,12 +1,14 @@
 package com.sublimenoir.SublimeNoir.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -17,7 +19,6 @@ public class Order {
 
     private LocalDate orderDate;
 
-    // --- Setters
     @Setter
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
@@ -32,7 +33,7 @@ public class Order {
             cascade = CascadeType.PERSIST,
             orphanRemoval = true
     )
-    private List<OrderItem> items = new ArrayList<>();
+    private final List<OrderItem> items = new ArrayList<>();
 
     public Order() {
         super();
@@ -40,25 +41,10 @@ public class Order {
     }
 
     public Order(User user) {
-        this.user = user;
         this.orderDate = LocalDate.now();
         this.status = OrderStatus.PENDING;
+        user.addOrder(this);
     }
-
-    // --- Getters
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public LocalDate getOrderDate() { return orderDate; }
-
-    public OrderStatus getStatus() { return status; }
-
-    public List<OrderItem> getItems() { return items; }
 
     public void addItem(Product product, int quantity) {
         OrderItem item = new OrderItem(

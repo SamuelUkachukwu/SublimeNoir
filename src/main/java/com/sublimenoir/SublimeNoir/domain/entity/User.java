@@ -7,30 +7,28 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "users")
 public class User {
 
-    // --- Getters
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // --Setters
     @Setter
-    @Getter
+    @Column(unique = true)
     private String username;
 
     @Setter
-    @Getter
     @Column(unique = true)
     private String email;
+
     @Setter
-    @Getter
     private String firstName;
+
     @Setter
-    @Getter
     private String lastName;
 
     @OneToMany(
@@ -38,7 +36,7 @@ public class User {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Order> orders = new ArrayList<>();
+    private final List<Order> orders = new ArrayList<>();
 
     public User() {
         super();
@@ -52,4 +50,13 @@ public class User {
         this.lastName = lastName;
     }
 
+    public void addOrder(Order order) {
+        orders.add(order);
+        order.setUser(this);
+    }
+
+    public void removeOrder(Order order) {
+        orders.remove(order);
+        order.setUser(null);
+    }
 }

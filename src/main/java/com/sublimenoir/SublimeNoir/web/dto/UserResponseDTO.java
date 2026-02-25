@@ -2,10 +2,10 @@ package com.sublimenoir.SublimeNoir.web.dto;
 
 import com.sublimenoir.SublimeNoir.domain.entity.User;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDTO {

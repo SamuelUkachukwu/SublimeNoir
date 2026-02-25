@@ -4,6 +4,8 @@ import com.sublimenoir.SublimeNoir.domain.entity.User;
 import com.sublimenoir.SublimeNoir.domain.repository.UserRepository;
 import com.sublimenoir.SublimeNoir.exception.UserNotFoundException;
 import com.sublimenoir.SublimeNoir.service.interfaces.UserService;
+import com.sublimenoir.SublimeNoir.web.dto.UserRequestDTO;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +22,12 @@ public class UserServiceImpl implements UserService {
     // --- CRUD
     @Override
     @Transactional
-    public User save(User user) {
-        validateUser(user);
+    public User save(UserRequestDTO dto) {
+        validateUser(dto);
+
+        User user = new User();
+        updateUserFields(user, dto);
+
         return userRepository.save(user);
     }
     @Override
@@ -32,17 +38,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User update(Long id, User updated) {
+    public User update(Long id, UserRequestDTO updated) {
         validateUser(updated);
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
 
         // update allowed fields
-        user.setUsername(updated.getUsername());
-        user.setEmail(updated.getEmail());
-        user.setFirstName(updated.getFirstName());
-        user.setLastName(updated.getLastName());
+        updateUserFields(user, updated);
 
         return userRepository.save(user);
     }
@@ -82,8 +85,12 @@ public class UserServiceImpl implements UserService {
         requireNotBlank(username, "Username");
         requireNotBlank(email, "Email");
 
-        if (userRepository.findByEmail(email).isPresent()) {
+        if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already registered");
+        }
+
+        if (userRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("Username already exists");
         }
 
         User user = new User(username, email, firstName, lastName);
@@ -91,8 +98,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    // --- Helper function
+    private void updateUserFields(@NonNull User user, UserRequestDTO dto) {
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+        user.setUsername(dto.getUsername());
+    }
+
     // --- validation helper
-    private void validateUser(User user) {
+    private void validateUser(UserRequestDTO user) {
         if (user == null) throw new IllegalArgumentException("User must not be null");
 
         requireNotBlank(user.getUsername(), "Username");

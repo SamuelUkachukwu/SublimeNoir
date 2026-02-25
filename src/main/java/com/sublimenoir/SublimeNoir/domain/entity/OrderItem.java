@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
 @Entity
 public class OrderItem {
 
@@ -12,12 +13,10 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
+
     private int quantity;
-    @Getter
     private double priceAtPurchase;
 
-    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
@@ -34,5 +33,8 @@ public class OrderItem {
         this.product = product;
         this.quantity = quantity;
         this.priceAtPurchase = priceAtPurchase;
+    }
+
+    public void setOrder(Object o) {
     }
 }
