@@ -74,7 +74,13 @@ public class UserController {
 
     @GetMapping("/get-username")
     public UserResponseDTO getByUsername(@RequestParam String username) {
+
         User user = userService.findByUsername(username);
+
+        if (user == null) {
+            throw new UserNotFoundException("User with username: " + username + " not found");
+        }
+
         return new UserResponseDTO(user);
     }
 }

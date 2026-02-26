@@ -4,7 +4,11 @@ import com.sublimenoir.SublimeNoir.domain.entity.*;
 import com.sublimenoir.SublimeNoir.domain.repository.OrderRepository;
 import com.sublimenoir.SublimeNoir.domain.repository.ProductRepository;
 import com.sublimenoir.SublimeNoir.domain.repository.UserRepository;
+import com.sublimenoir.SublimeNoir.exception.OrderNotFoundException;
+import com.sublimenoir.SublimeNoir.exception.ProductNotFoundException;
+import com.sublimenoir.SublimeNoir.exception.UserNotFoundException;
 import com.sublimenoir.SublimeNoir.service.interfaces.OrderService;
+import com.sublimenoir.SublimeNoir.web.dto.OrderItemRequestDTO;
 import com.sublimenoir.SublimeNoir.web.dto.OrderRequestDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,18 +47,27 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(OrderRequestDTO dto) {
 
         User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         Order order = new Order(user);
 
-        return orderRepository.save(order);
+        orderRepository.save(order);
+
+        if (dto.getItems() != null) {
+            for (OrderItemRequestDTO item : dto.getItems()) {
+                addProduct(order.getOrderId(), item.getProductId(), item.getQuantity());
+            }
+        }
+
+        return orderRepository.findById(order.getOrderId())
+                .orElseThrow(() -> new IllegalStateException("Order creation failed"));
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
         if (!orderRepository.existsById(id)) {
-            throw new IllegalArgumentException("Order not found");
+            throw new OrderNotFoundException("Order not found");
         }
         orderRepository.deleteById(id);
     }
@@ -64,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public List<Order> findByUser(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         return orderRepository.findByUser(user);
     }
 
@@ -81,10 +94,10 @@ public class OrderServiceImpl implements OrderService {
         if (quantity <= 0) throw new IllegalArgumentException("Quantity must be positive");
 
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException("Order not found"));
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
         if (product.getQuantity() < quantity) {
             throw new IllegalArgumentException("Not enough stock to complete this order");
@@ -102,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order removeProduct(Long orderId, Long productId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException("Order not found"));
 
         Optional<OrderItem> itemOpt = order.getItems().stream()
                 .filter(i -> i.getProduct().getProductId().equals(productId))
@@ -126,7 +139,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order changeStatus(Long orderId, OrderStatus status) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException("Order not found"));
         order.setStatus(status);
         return orderRepository.save(order);
     }
@@ -136,7 +149,7 @@ public class OrderServiceImpl implements OrderService {
     public Order updateProductQuantity(Long orderId, Long productId, int quantity) {
 
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException("Order not found"));
 
         OrderItem foundItem = null;
 
@@ -167,7 +180,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(readOnly = true)
     public double calculateTotal(Long orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException("Order not found"));
 
         double totalPrice = 0;
         for (OrderItem item : order.getItems()) {
