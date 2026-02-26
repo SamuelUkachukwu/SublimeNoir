@@ -131,6 +131,38 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
+    @Transactional
+    @Override
+    public Order updateProductQuantity(Long orderId, Long productId, int quantity) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
+        OrderItem foundItem = null;
+
+        for (OrderItem item : order.getItems()) {
+            if (item.getProduct().getProductId().equals(productId)) {
+                foundItem = item;
+                break;
+            }
+        }
+
+        if (foundItem == null) {
+            throw new IllegalArgumentException("Product not in order");
+        }
+
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+
+        if (quantity == 0) {
+            order.removeItem(foundItem);
+        } else {
+            foundItem.setQuantity(quantity);
+        }
+        return orderRepository.save(order);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public double calculateTotal(Long orderId) {

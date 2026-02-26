@@ -1,6 +1,7 @@
 package com.sublimenoir.SublimeNoir.web.dto;
 
 import com.sublimenoir.SublimeNoir.domain.entity.Order;
+import com.sublimenoir.SublimeNoir.domain.entity.OrderItem;
 import com.sublimenoir.SublimeNoir.domain.entity.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,9 @@ public class OrderResponseDTO {
         this.orderDate = order.getOrderDate();
         this.status = order.getStatus();
         this.items = new ArrayList<>();
+        for (OrderItem item : order.getItems()) {
+            this.items.add(new OrderItemResponseDTO(item));
+        }
         this.total = order.calculateTotal();
     }
 }

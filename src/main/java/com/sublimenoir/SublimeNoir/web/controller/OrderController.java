@@ -75,6 +75,16 @@ public class OrderController {
         return new OrderResponseDTO(order);
     }
 
+    @DeleteMapping("/{orderId}/products/{productId}")
+    public OrderResponseDTO removeProduct(
+            @PathVariable Long orderId,
+            @PathVariable Long productId) {
+
+        Order order = orderService.removeProduct(orderId, productId);
+
+        return new OrderResponseDTO(order);
+    }
+
     @PutMapping("/{orderId}/status")
     public OrderResponseDTO changeStatus(
             @PathVariable Long orderId,
@@ -106,5 +116,16 @@ public class OrderController {
         }
 
         return dtos;
+    }
+
+    @PutMapping("/{orderId}/products/{productId}")
+    public OrderResponseDTO updateProductQuantity(
+            @PathVariable Long orderId,
+            @PathVariable Long productId,
+            @RequestParam int quantity) {
+
+        Order order = orderService.updateProductQuantity(orderId, productId, quantity);
+
+        return new OrderResponseDTO(order);
     }
 }

@@ -33,7 +33,7 @@ public class User {
 
     @OneToMany(
             mappedBy = "user",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.PERSIST,
             orphanRemoval = true
     )
     private final List<Order> orders = new ArrayList<>();

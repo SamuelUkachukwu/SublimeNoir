@@ -30,7 +30,7 @@ public class Order {
 
     @OneToMany(
             mappedBy = "order",
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private final List<OrderItem> items = new ArrayList<>();
