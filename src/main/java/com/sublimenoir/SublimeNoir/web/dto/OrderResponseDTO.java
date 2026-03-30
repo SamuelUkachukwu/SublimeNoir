@@ -18,6 +18,7 @@ import java.util.List;
 public class OrderResponseDTO {
     private Long orderId;
     private Long userId;
+    private String username;
     private LocalDate orderDate;
     private OrderStatus status;
     private List<OrderItemResponseDTO> items;
@@ -27,6 +28,7 @@ public class OrderResponseDTO {
         this.orderId = order.getOrderId();
         this.userId = order.getUser().getId();
         this.orderDate = order.getOrderDate();
+        this.username = order.getUser().getUsername();
         this.status = order.getStatus();
         this.items = new ArrayList<>();
         for (OrderItem item : order.getItems()) {
