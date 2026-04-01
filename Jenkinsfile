@@ -4,8 +4,7 @@ pipeline{
     stages{
         stage('GetProject'){
             steps{
-                git branch: 'main',
-                url: 'https://github.com/SamuelUkachukwu/SublimeNoir.git'
+               echo 'Cloning project from Github'
             }
         }
         stage('Build'){
