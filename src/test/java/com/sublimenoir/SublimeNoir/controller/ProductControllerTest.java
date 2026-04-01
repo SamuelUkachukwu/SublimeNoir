@@ -35,6 +35,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("GET /api/products retrieves all products")
     void getAllProducts() throws Exception {
         mockMvc.perform(get("/api/products"))
                 .andDo(print())
@@ -42,6 +43,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("GET /api/products/{id} retrieves a product by productId")
     void getProductById() throws Exception {
         String response = mockMvc.perform(post("/api/products")
                         .content("{\"name\":\"Gateway\",\"brand\":\"SublimeMagic\",\"price\":200,\"sizeML\":120,\"quantity\":50}")
@@ -57,6 +59,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("GET /api/products/{id} returns 404 when product not found")
     void productNotFound() throws Exception {
         mockMvc.perform(get("/api/products/999"))
                 .andDo(print())
@@ -64,6 +67,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("PUT /api/products/{id} update an product if it exists")
     void updateProduct() throws Exception {
         String response = mockMvc.perform(post("/api/products")
                         .content("{\"name\":\"Bloom\",\"brand\":\"SublimeNoir\",\"price\":150,\"sizeML\":120,\"quantity\":40}")
@@ -81,6 +85,7 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("DELETE /api/products/{id} delete a product successfully")
     void deleteProduct() throws Exception {
         String response = mockMvc.perform(post("/api/products")
                         .content("{\"name\":\"MoonBeam\",\"brand\":\"SublimeNoir\",\"price\":150,\"sizeML\":120,\"quantity\":40}")
